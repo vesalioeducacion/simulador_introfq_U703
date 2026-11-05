@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INTRODUCCIÓN A LA FISICOQUÍMICA - Bioelectricidad & Electroterapia (Facultad de Cs. Médicas - UCCuyo)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #f7f9f6;
+      color: #1e293b;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Paleta Institucional UCCuyo (Verde Oliva) */
+    .text-accent { color: #436600; }
+    .bg-accent { background-color: #436600; }
+    .bg-accent-hover:hover { background-color: #324d00; }
+    .bg-accent-light { background-color: #f1f6eb; }
+    .border-accent { border-color: #436600; }
+
+    .text-primary { color: #436600; }
+    .bg-primary { background-color: #436600; }
+    .bg-primary-dark { background-color: #324d00; }
+    .border-primary { border-color: #436600; }
+    
+    .focus-accent:focus {
+      border-color: #436600;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 102, 0, 0.2);
+    }
+    
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .interactive-card {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .interactive-card:hover {
+      transform: translateY(-2px);
+      border-color: #436600;
+      box-shadow: 0 10px 25px -5px rgba(67, 102, 0, 0.12);
+    }
+
+    /* Animación de pulso eléctrico */
+    @keyframes electricPulse {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(67, 102, 0, 0.5)); }
+    }
+    .electric-glow {
+      animation: electricPulse 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-accent/20 text-gray-800">
+
+  <!-- ========================================================================= -->
+  <!-- CABECERA INSTITUCIONAL UCCUYO (Idéntica a U7-01 y U7-02)                  -->
+  <!-- ========================================================================= -->
+  <header class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-accent flex items-center justify-center text-white font-bold text-xl shadow-md">
+          IFQ
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-gray-800 tracking-wide uppercase">INTRODUCCIÓN A LA FISICOQUÍMICA</h1>
+          <p class="text-xs text-gray-500 font-semibold">Lic. en Kinesiología y Fisiatría (Facultad de Cs. Médicas - UCCuyo)</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <!-- Botón Vademécum Teórico -->
+        <button onclick="openFormulasModal()" class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-semibold rounded-lg border border-gray-200 hover:bg-gray-200 transition">
+          <i class="fa-solid fa-book-bookmark text-accent"></i>
+          <span class="hidden sm:inline">Vademécum</span>
+        </button>
+        <!-- Botón Guía de Uso -->
+        <button onclick="openTutorial()" class="flex items-center gap-1.5 px-3 py-1.5 bg-accent text-white text-xs font-semibold rounded-lg shadow-sm hover:opacity-90 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Guía de Uso
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- CONTENIDO PRINCIPAL CON SIDEBAR LATERAL                                   -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 flex flex-col lg:flex-row gap-6">
+    
+    <!-- Menú de Navegación Lateral (Estilo U7-01 y U7-02) -->
+    <nav class="w-full lg:w-64 flex flex-row lg:flex-col gap-2 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto lg:overflow-x-visible whitespace-nowrap lg:whitespace-normal sticky top-20 h-fit">
+      <button onclick="switchModule(1)" id="tab-btn-1" class="bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition shadow-sm flex items-center gap-2">
+        <i class="fa-solid fa-atom"></i> <span>1. Coulomb & Campo</span>
+      </button>
+      <button onclick="switchModule(2)" id="tab-btn-2" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-bolt"></i> <span>2. Potencial & Corriente</span>
+      </button>
+      <button onclick="switchModule(3)" id="tab-btn-3" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-wave-square"></i> <span>3. Ohm & Joule Kinésico</span>
+      </button>
+      <button onclick="switchModule(4)" id="tab-btn-4" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-dna"></i> <span>4. Bioelectricidad Celular</span>
+      </button>
+      <button onclick="switchModule(5)" id="tab-btn-5" class="text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition flex items-center gap-2">
+        <i class="fa-solid fa-user-doctor"></i> <span>5. Casos Kinésicos</span>
+      </button>
+    </nav>
+
+    <!-- Área de Contenido Dinámico -->
+    <div class="flex-1 space-y-6">
+
+      <!-- ========================================================================= -->
+      <!-- MÓDULO 1: ELECTROSTÁTICA, COULOMB Y CAMPO ELÉCTRICO                       -->
+      <!-- ========================================================================= -->
+      <section id="module-1" class="module-view flex flex-col gap-6">
+        
+        <!-- Tarjeta de Contexto Teórico -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-lime-600">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-accent">Física Fundamental</span>
+            <span class="text-xs bg-accent-light text-accent px-2.5 py-0.5 rounded border border-accent/20 font-semibold font-mono">K ≈ 9×10⁹ N·m²/C²</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-800 mb-2">Electroestática: Carga Eléctrica, Ley de Coulomb y Campo Eléctrico</h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            La <strong>carga eléctrica</strong> es una propiedad intrínseca de las partículas subatómicas (positiva en protones, negativa en electrones) cuantificada en <strong>Coulombs (C)</strong>. Las cargas de igual signo experimentan fuerzas de repulsión mutua y las de signo opuesto se atraen, gobernadas en magnitud por la <strong>Ley de Coulomb</strong> y mediadas espacialmente a través de un <strong>campo eléctrico (E⃗)</strong>.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Canvas 2D Interactivo de Cargas (8 cols) -->
+          <div class="lg:col-span-8 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex flex-wrap items-center justify-between pb-3 border-b border-slate-100 gap-2">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-arrows-to-dot text-accent"></i> Espacio Vectorial 2D: Cargas y Campo
+                </h3>
+                <div class="flex items-center gap-2 text-xs">
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input type="checkbox" id="m1-toggle-field" checked class="rounded accent-[#436600]" onchange="renderM1()">
+                    <span class="text-slate-600 font-medium">Líneas de Campo</span>
+                  </label>
+                  <label class="flex items-center gap-1.5 cursor-pointer">
+                    <input type="checkbox" id="m1-toggle-vectors" checked class="rounded accent-[#436600]" onchange="renderM1()">
+                    <span class="text-slate-600 font-medium">Vectores Fuerza</span>
+                  </label>
+                  <button onclick="resetModule1Positions()" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg transition font-medium" title="Reubicar cargas">
+                    <i class="fa-solid fa-arrows-rotate"></i> Centrar
+                  </button>
+                </div>
+              </div>
+
+              <!-- Lienzo Interactivo Canvas -->
+              <div class="my-4 relative w-full h-[360px] bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-800">
+                <canvas id="canvas-coulomb" class="w-full h-full cursor-crosshair block"></canvas>
+                <!-- Overlay de Monitoreo Dinámico -->
+                <div class="absolute bottom-3 left-3 bg-slate-950/85 backdrop-blur-xs text-white text-[11px] p-2.5 rounded-lg border border-slate-800 font-mono space-y-0.5 pointer-events-none">
+                  <div>Distancia r (Q₁ - Q₂): <span id="m1-disp-r" class="text-lime-400 font-bold">0.00 m</span></div>
+                  <div>Fuerza de Coulomb: <span id="m1-disp-f" class="text-accent-light font-bold">0.00 N</span> (<span id="m1-disp-f-type">Repulsión</span>)</div>
+                  <div>Campo en Sonda q₀: <span id="m1-disp-e-probe" class="text-emerald-400 font-bold">0.00 N/C</span></div>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-between text-xs text-slate-500">
+                <span>🔴 Carga Positiva (+) &bull; 🔵 Carga Negativa (-) &bull; 🟡 Sonda q₀ (Carga de prueba positiva)</span>
+                <span class="italic font-mono">Arrastra las cargas o la sonda q₀</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controles y Cálculos Paso a Paso (4 cols) -->
+          <div class="lg:col-span-4 space-y-4 flex flex-col justify-between">
+            <!-- Carga 1 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>
+                  Carga Q₁ (<span id="m1-val-q1" class="font-mono text-rose-600">+4.0 μC</span>)
+                </label>
+                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono">1 μC = 10⁻⁶ C</span>
+              </div>
+              <input type="range" id="m1-slider-q1" min="-10" max="10" step="0.5" value="4" class="w-full accent-[#436600] cursor-pointer" oninput="onM1SliderChange()">
+              <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                <span>-10 μC</span>
+                <span>0</span>
+                <span>+10 μC</span>
+              </div>
+            </div>
+
+            <!-- Carga 2 -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+              <div class="flex justify-between items-center mb-2">
+                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
+                  Carga Q₂ (<span id="m1-val-q2" class="font-mono text-blue-600">-4.0 μC</span>)
+                </label>
+                <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 font-mono">1 μC = 10⁻⁶ C</span>
+              </div>
+              <input type="range" id="m1-slider-q2" min="-10" max="10" step="0.5" value="-4" class="w-full accent-[#436600] cursor-pointer" oninput="onM1SliderChange()">
+              <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                <span>-10 μC</span>
+                <span>0</span>
+                <span>+10 μC</span>
+              </div>
+            </div>
+
+            <!-- Justificación Fisiológica y Kinésica -->
+            <div class="p-4 bg-accent-light rounded-2xl border border-accent/20 text-xs text-slate-700 space-y-1.5">
+              <strong class="text-accent flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-stethoscope"></i> Foco Kinésico: Cargas e Iones
+              </strong>
+              <p class="leading-relaxed">
+                En el medio biológico acuoso, las cargas no están aisladas en el vacío: son iones solvatados (Na⁺, K⁺, Ca²⁺, Cl⁻). La fuerza de atracción y repulsión electrostática determina la permeabilidad en los canales de membrana y la unión ligando-receptor farmacológico en rehabilitación.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- MÓDULO 2: POTENCIAL ELÉCTRICO, VOLTAJE Y DINÁMICA DE CIRCUITOS            -->
+      <!-- ========================================================================= -->
+      <section id="module-2" class="module-view hidden flex flex-col gap-6">
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-lime-600">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-accent">Electrodinámica</span>
+            <span class="text-xs bg-accent-light text-accent px-2.5 py-0.5 rounded border border-accent/20 font-semibold font-mono">Trabajo: W = q · ΔV</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-800 mb-2">Potencial Eléctrico, Voltaje (Tensión) y Corriente Eléctrica</h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            El <strong>potencial eléctrico (V)</strong> representa la energía potencial por unidad de carga (V = E_p / q, en Voltios). La <strong>diferencia de potencial (ΔV = V_A - V_B)</strong> es la "fuerza motriz" o tensión que impulsa a las cargas libres a desplazarse en forma ordenada, generando una <strong>corriente eléctrica (I = ΔQ / Δt)</strong>, medida en Amperios (1 A = 1 C/s).
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Conductor / Tubo de Iones con Flujo en Tiempo Real (7 cols) -->
+          <div class="lg:col-span-7 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-battery-three-quarters text-accent"></i> Conductor Electrolítico & Deriva de Portadores
+                </h3>
+                <span id="m2-current-tag" class="text-xs font-mono font-bold text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">
+                  I = 5.00 mA
+                </span>
+              </div>
+
+              <!-- Canvas Tubo de Corriente -->
+              <div class="my-4 relative w-full h-[260px] bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-800">
+                <canvas id="canvas-drift" class="w-full h-full block"></canvas>
+                <div class="absolute top-2 left-3 bg-slate-950/80 text-white font-mono text-[10px] px-2 py-1 rounded border border-slate-800">
+                  Polo Ánodo (+) &rarr; Flujo convencional &rarr; Polo Cátodo (-)
+                </div>
+              </div>
+
+              <!-- Controles de Voltaje y Densidad -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div>
+                  <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                    <span>Voltaje (ΔV)</span>
+                    <span id="m2-val-voltage" class="font-mono text-accent">50 V</span>
+                  </div>
+                  <input type="range" id="m2-slider-voltage" min="0" max="100" value="50" class="w-full accent-[#436600] cursor-pointer" oninput="onM2VoltageChange(this.value)">
+                  <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                    <span>0 V</span>
+                    <span>50 V</span>
+                    <span>100 V</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                    <span>Densidad Iónica Tisular</span>
+                    <span id="m2-val-density" class="font-mono text-accent">Media</span>
+                  </div>
+                  <input type="range" id="m2-slider-density" min="10" max="60" value="30" class="w-full accent-[#436600] cursor-pointer" oninput="onM2DensityChange(this.value)">
+                  <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                    <span>Baja (Seco)</span>
+                    <span>Media</span>
+                    <span>Alta (Gel)</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Mapeo de Trabajo y Conexión Kinésica (Iontoforesis) (5 cols) -->
+          <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+              <h3 class="text-sm font-bold text-slate-800 mb-2 flex items-center gap-1.5">
+                <i class="fa-solid fa-calculator text-accent"></i> Trabajo Eléctrico en el Transporte
+              </h3>
+              <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+                El trabajo W necesario para mover una carga q entre dos potenciales V_A y V_B equivale a la energía transferida al portador de carga:
+                <span class="block bg-slate-100 p-2 rounded-lg font-mono text-center text-slate-800 font-bold my-2">
+                  W = q · ΔV = q · (V_A - V_B)
+                </span>
+              </p>
+
+              <div class="space-y-2.5 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Carga transportada (q):</span>
+                  <div class="flex items-center gap-1.5">
+                    <input type="number" id="m2-input-q" value="2.5" step="0.5" class="w-16 px-2 py-0.5 border rounded text-right font-mono text-xs focus-accent" oninput="calcWork()">
+                    <span class="font-mono text-slate-500">mC</span>
+                  </div>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-600">Tensión aplicada (ΔV):</span>
+                  <span id="m2-calc-dv-display" class="font-mono font-bold text-accent">50.0 V</span>
+                </div>
+                <div class="border-t border-slate-200 pt-2 flex justify-between items-center text-sm">
+                  <span class="font-bold text-slate-700">Trabajo Realizado (W):</span>
+                  <span id="m2-calc-work-res" class="font-mono font-bold text-accent text-base">0.125 J</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Aplicación en Kinesiología: Iontoforesis -->
+            <div class="p-4 bg-accent-light rounded-2xl border border-accent/20 text-xs text-slate-700 space-y-1.5">
+              <strong class="text-accent flex items-center gap-1.5 font-bold">
+                <i class="fa-solid fa-syringe"></i> Conexión Kinésica: Iontoforesis
+              </strong>
+              <p class="leading-relaxed">
+                La técnica de <strong>iontoforesis</strong> aprovecha la diferencia de potencial (ΔV) entre dos electrodos colocados sobre la piel para repeler e introducir moléculas farmacológicas ionizadas (anestésicos, antiinflamatorios) hacia el interior de los tejidos profundos sin romper la piel.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- MÓDULO 3: LEY DE OHM, EFECTO JOULE Y TALLER DE ELECTROTERAPIA             -->
+      <!-- ========================================================================= -->
+      <section id="module-3" class="module-view hidden flex flex-col gap-6">
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-lime-600">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-accent">Dosificación en Fisioterapia</span>
+            <span class="text-xs bg-accent-light text-accent px-2.5 py-0.5 rounded border border-accent/20 font-semibold font-mono">Q = I² · R · t</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-800 mb-2">Ley de Ohm, Efecto Joule y Seguridad en Electroterapia</h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            La <strong>Ley de Ohm</strong> establece que la corriente es directamente proporcional a la tensión e inversamente proporcional a la resistencia (I = ΔV / R). En tejidos vivos, la piel opone alta impedancia que se reduce con gel conductor. El <strong>Efecto Joule (Q = I^2 · R · t)</strong> describe la conversión irreversible de energía eléctrica en energía térmica, clave para dosificar analgesia y evitar quemaduras.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Simulador de Paciente y Electrodos (7 cols) -->
+          <div class="lg:col-span-7 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 space-y-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-user-injured text-accent"></i> Aplicación Clínica: Electrodos sobre Músculo
+                </h3>
+                <span id="m3-safety-tag" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                  Rango Terapéutico Seguro
+                </span>
+              </div>
+
+              <!-- Esquema Visual del Paciente y Tejidos -->
+              <div class="my-4 bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col items-center justify-center">
+                <div class="w-full max-w-md bg-white rounded-xl p-3.5 border border-slate-300 shadow-sm relative overflow-hidden">
+                  <div class="flex justify-between items-center text-xs font-bold mb-2">
+                    <span class="text-rose-600 flex items-center gap-1"><i class="fa-solid fa-circle-dot"></i> Electrodo Ánodo (+)</span>
+                    <span class="text-blue-600 flex items-center gap-1"><i class="fa-solid fa-circle-dot"></i> Electrodo Cátodo (-)</span>
+                  </div>
+                  
+                  <!-- Capas Tisulares -->
+                  <div class="space-y-1.5 text-[11px] font-mono">
+                    <div id="m3-skin-layer" class="bg-amber-100 p-2 rounded-lg text-amber-900 flex justify-between items-center transition-colors duration-300 border border-amber-200">
+                      <span>Estrato Córneo / Piel</span>
+                      <span id="m3-skin-res-disp" class="font-bold">500 Ω (Con Gel)</span>
+                    </div>
+                    <div class="bg-rose-50 p-2 rounded-lg text-rose-900 flex justify-between items-center border border-rose-200">
+                      <span>Músculo Esquelético Profundo (Electrolitos)</span>
+                      <span class="font-bold text-rose-700">120 Ω (Baja impedancia)</span>
+                    </div>
+                  </div>
+
+                  <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span class="text-slate-500">Resistencia Total del Circuito:</span>
+                    <span id="m3-total-r-disp" class="font-mono font-bold text-accent text-sm">620 Ω</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Parámetros de Dosificación -->
+              <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <label class="font-bold text-slate-700">Estado de la Piel / Interfase:</label>
+                  <select id="m3-select-skin" class="p-1.5 rounded-lg border border-slate-300 bg-white font-medium text-slate-700 focus-accent" onchange="updateOhmJoule()">
+                    <option value="gel" selected>Gel conductor abundante (R_piel = 500 Ω)</option>
+                    <option value="dry">Piel seca sin gel suficiente (R_piel = 3500 Ω)</option>
+                    <option value="hydrated">Piel hidratada / esponja húmeda (R_piel = 1200 Ω)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold text-slate-700 mb-1">
+                    <span>Voltaje del Estimulador (ΔV)</span>
+                    <span id="m3-val-volts" class="font-mono text-accent">35 V</span>
+                  </div>
+                  <input type="range" id="m3-slider-volts" min="5" max="80" value="35" class="w-full accent-[#436600] cursor-pointer" oninput="updateOhmJoule()">
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold text-slate-700 mb-1">
+                    <span>Tiempo de Sesión (t)</span>
+                    <span id="m3-val-time" class="font-mono text-accent">15 min (900 s)</span>
+                  </div>
+                  <input type="range" id="m3-slider-time" min="1" max="30" value="15" class="w-full accent-[#436600] cursor-pointer" oninput="updateOhmJoule()">
+                </div>
+
+                <div>
+                  <label class="font-bold text-slate-700 block mb-1">Área del Electrodo:</label>
+                  <select id="m3-select-electrode-size" class="w-full p-1.5 rounded-lg border border-slate-300 bg-white font-medium text-slate-700 focus-accent" onchange="updateOhmJoule()">
+                    <option value="large">Grande (10x10 cm = 100 cm²) - Densidad baja</option>
+                    <option value="medium" selected>Estándar (5x5 cm = 25 cm²) - Terapéutico</option>
+                    <option value="small">Pequeño tipo lápiz (2 cm²) - Alta densidad focal</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Lecturas Físicas y Efecto Joule (5 cols) -->
+          <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Lecturas Biofísicas del Circuito</h4>
+              
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <span class="text-[10px] text-slate-500 font-semibold uppercase block">Intensidad (Ohm)</span>
+                  <div class="text-2xl font-black text-slate-800 font-mono mt-1" id="m3-disp-i">
+                    56.5 <span class="text-xs font-normal text-slate-500">mA</span>
+                  </div>
+                  <span class="text-[10px] text-slate-400 font-mono">I = ΔV / R</span>
+                </div>
+
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <span class="text-[10px] text-slate-500 font-semibold uppercase block">Densidad (J)</span>
+                  <div class="text-2xl font-black text-accent font-mono mt-1" id="m3-disp-j">
+                    2.26 <span class="text-xs font-normal text-slate-500">mA/cm²</span>
+                  </div>
+                  <span class="text-[10px] text-slate-400 font-mono">J = I / Área</span>
+                </div>
+              </div>
+
+              <!-- Efecto Joule -->
+              <div class="bg-accent-light p-4 rounded-xl border border-accent/20">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-bold text-accent flex items-center gap-1">
+                    <i class="fa-solid fa-fire-flame-curved"></i> Calor Generado (Efecto Joule)
+                  </span>
+                  <span class="text-[10px] font-mono text-slate-600 font-bold">Q = I² · R · t</span>
+                </div>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span class="text-2xl font-black text-slate-800 font-mono" id="m3-disp-joules">1,780 J</span>
+                  <span class="text-xs text-slate-600 font-mono">(≈ <span id="m3-disp-cal">425</span> cal)</span>
+                </div>
+                <p class="text-[11px] text-slate-700 mt-1 leading-snug" id="m3-thermal-warning">
+                  ✅ Calentamiento tisular fisiológico leve. Bien disipado por la microcirculación dérmica.
+                </p>
+              </div>
+            </div>
+
+            <!-- Umbrales Clínicos de Intensidad -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 text-xs space-y-2">
+              <div class="font-bold text-slate-700 mb-1">Umbrales Fisiológicos en Electroterapia:</div>
+              <div class="flex items-center justify-between p-1.5 rounded bg-slate-50">
+                <span>0 - 10 mA: Sensación sensitiva de hormigueo</span>
+                <span class="font-mono text-emerald-600 font-bold">Sub-motor</span>
+              </div>
+              <div class="flex items-center justify-between p-1.5 rounded bg-emerald-50 text-emerald-900">
+                <span>10 - 30 mA: Contracción muscular franca</span>
+                <span class="font-mono text-emerald-700 font-bold">Reeducación</span>
+              </div>
+              <div class="flex items-center justify-between p-1.5 rounded bg-amber-50 text-amber-900">
+                <span>30 - 50 mA: Tetanización y disconfort</span>
+                <span class="font-mono text-amber-700 font-bold">Límite Seguro</span>
+              </div>
+              <div class="flex items-center justify-between p-1.5 rounded bg-rose-50 text-rose-900">
+                <span>&gt; 50 mA: Riesgo de quemadura térmica</span>
+                <span class="font-mono text-rose-700 font-bold">Peligro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- MÓDULO 4: BIOELECTRICIDAD CELULAR, MEMBRANA Y CONTRACCIÓN MUSCULAR        -->
+      <!-- ========================================================================= -->
+      <section id="module-4" class="module-view hidden flex flex-col gap-6">
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-lime-600">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-accent">Fisiología Celular</span>
+            <span class="text-xs bg-accent-light text-accent px-2.5 py-0.5 rounded border border-accent/20 font-semibold font-mono">Bomba Na⁺/K⁺ (3:2)</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-800 mb-2">Bioelectricidad: Potencial de Membrana y Activación Muscular</h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            La célula viva actúa como una <strong>microbatería biológica</strong>: la bicapa lipídica semipermeable se comporta como un <strong>dieléctrico</strong> que mantiene separados los iones. En reposo, el exterior es positivo (rico en Na⁺ y Cl⁻) y el interior es negativo (rico en K⁺ y aniones proteicos no difusibles), fijando un <strong>potencial de membrana en reposo de -70 mV</strong>. Al alcanzar el umbral (-55 mV), se abren canales dependientes de voltaje desencadenando el potencial de acción y la contracción de la sarcómera.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Canvas de Membrana e Iones (7 cols) -->
+          <div class="lg:col-span-7 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                  <i class="fa-solid fa-dna text-accent"></i> Bicapa Lipídica & Canales de Na⁺ / K⁺
+                </h3>
+                <span id="m4-membrane-state-tag" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300">
+                  Reposo Polarizado (-70 mV)
+                </span>
+              </div>
+
+              <!-- Canvas Membrana -->
+              <div class="my-4 relative w-full h-[250px] bg-slate-900 rounded-xl overflow-hidden shadow-inner border border-slate-800">
+                <canvas id="canvas-membrane" class="w-full h-full block"></canvas>
+                <div class="absolute top-2 left-3 bg-slate-950/80 text-white font-mono text-[10px] px-2 py-0.5 rounded border border-slate-800">
+                  Extracelular (+ Rico en Na⁺)
+                </div>
+                <div class="absolute bottom-2 left-3 bg-slate-950/80 text-white font-mono text-[10px] px-2 py-0.5 rounded border border-slate-800">
+                  Intracelular (- Rico en K⁺, Aniones A⁻)
+                </div>
+              </div>
+
+              <!-- Botonera de Acción Fisiológica -->
+              <div class="flex flex-wrap items-center gap-2 pt-2">
+                <button onclick="triggerActionPotential()" id="btn-stimulate" class="py-2 px-4 bg-accent hover:bg-accent-hover text-white font-bold rounded-xl text-xs shadow-sm flex items-center gap-1.5 transition">
+                  <i class="fa-solid fa-bolt"></i> Disparar Estímulo Kinésico (Pulso)
+                </button>
+                <button onclick="resetMembrane()" class="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition">
+                  Restablecer Reposo (-70 mV)
+                </button>
+                <span class="text-[11px] text-slate-500 ml-auto font-mono">Umbral: -55 mV</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Osciloscopio y Contracción de Sarcómera (5 cols) -->
+          <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+            <!-- Osciloscopio -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="text-xs font-bold text-slate-700">Osciloscopio: Potencial de Membrana (V_m)</h4>
+                <span id="m4-vm-live" class="font-mono text-sm font-bold text-accent bg-accent-light px-2 py-0.5 rounded border border-accent/20">-70.0 mV</span>
+              </div>
+              <div class="w-full h-32 bg-slate-950 rounded-xl overflow-hidden relative border border-slate-800">
+                <canvas id="canvas-oscilloscope" class="w-full h-full block"></canvas>
+              </div>
+              <div class="flex justify-between text-[10px] text-slate-400 font-mono mt-1">
+                <span>Reposo (-70 mV)</span>
+                <span>Umbral (-55 mV)</span>
+                <span>Pico (+30 mV)</span>
+              </div>
+            </div>
+
+            <!-- Sarcómera Muscular Mecánica -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="text-xs font-bold text-slate-700">Respuesta Mecánica de la Miofibrilla</h4>
+                <span id="m4-muscle-twitch-status" class="text-xs font-semibold text-slate-500">Relajada</span>
+              </div>
+              <div class="w-full h-24 bg-slate-900 rounded-xl overflow-hidden relative border border-slate-800">
+                <canvas id="canvas-sarcomere" class="w-full h-full block"></canvas>
+              </div>
+              <p class="text-[11px] text-slate-600 mt-2 leading-relaxed">
+                El flujo de Na⁺ despolariza el túbulo T, liberando Ca²⁺ que tracciona los filamentos de actina y miosina acortando la sarcómera.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- MÓDULO 5: CASOS CLÍNICOS Y EVALUACIÓN FORMATIVA                           -->
+      <!-- ========================================================================= -->
+      <section id="module-5" class="module-view hidden flex flex-col gap-6">
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 border-l-4 border-l-lime-600">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-accent">Evaluación Formativa</span>
+            <span class="text-xs bg-accent-light text-accent px-2.5 py-0.5 rounded border border-accent/20 font-semibold font-mono">Resolución Clínica</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-800 mb-2">Taller de Casos Clínicos en Fisicoquímica y Kinesiología</h2>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Resuelve los siguientes desafíos aplicando las leyes de Coulomb, Ohm, Joule y la bioelectricidad celular en situaciones terapéuticas reales.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="cases-container">
+          
+          <!-- Caso 1 -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between" id="case-card-1">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-accent-light text-accent border border-accent/20">Caso 1: Electroterapia & Piel Seca</span>
+                <span class="text-xs font-bold text-slate-400 font-mono">100 pts</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-2">Paciente con lumbalgia y electrodos sin gel suficiente</h3>
+              <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                Un paciente refiere una sensación de ardor punzante y quemazón superficial al aplicar una corriente con electrodos de goma conductora casi secos (R = 5000 Ω). El fisioterapeuta añade gel de alta conductividad, bajando la resistencia a 500 Ω manteniendo el voltaje del equipo en 40 V. Según la <strong>Ley de Ohm</strong> y el <strong>Efecto Joule</strong>, ¿qué ocurre con la corriente (I) y por qué el gel evita la quemadura focal?
+              </p>
+            </div>
+            <div class="space-y-2 text-xs">
+              <button onclick="answerCase(1, 0, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                A) La corriente disminuye a 8 mA y el calor se concentra más en los poros sudoríparos.
+              </button>
+              <button onclick="answerCase(1, 1, true)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                B) La corriente aumenta según I = V/R, pero el gel uniformiza la superficie de contacto eliminando los puntos calientes de altísima densidad de corriente (J).
+              </button>
+              <button onclick="answerCase(1, 2, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                C) La resistencia no afecta la potencia disipada porque el calor depende exclusivamente del tiempo.
+              </button>
+            </div>
+            <div class="case-feedback hidden mt-3 p-3 rounded-xl text-xs"></div>
+          </div>
+
+          <!-- Caso 2 -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between" id="case-card-2">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-accent-light text-accent border border-accent/20">Caso 2: Ley de Coulomb en Membranas</span>
+                <span class="text-xs font-bold text-slate-400 font-mono">100 pts</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-2">Atracción electrostática a través del espesor de la membrana</h3>
+              <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                La membrana celular tiene un espesor de apenas r = 7.5 nm (7.5 × 10^{-9} m). Considerando que la fuerza de atracción entre los aniones intracelulares y los cationes extracelulares sigue la Ley de Coulomb (F ∝ 1/r^2), ¿qué sucedería con la fuerza que retiene a estos iones contra la superficie si la membrana duplicara su espesor?
+              </p>
+            </div>
+            <div class="space-y-2 text-xs">
+              <button onclick="answerCase(2, 0, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                A) La fuerza de retención electrostática se reduciría a la mitad (1/2).
+              </button>
+              <button onclick="answerCase(2, 1, true)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                B) La fuerza electrostática disminuiría a la cuarta parte (1/4), reduciendo la capacidad del condensador biológico.
+              </button>
+              <button onclick="answerCase(2, 2, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                C) La fuerza aumentaría 4 veces por haber mayor volumen dieléctrico.
+              </button>
+            </div>
+            <div class="case-feedback hidden mt-3 p-3 rounded-xl text-xs"></div>
+          </div>
+
+          <!-- Caso 3 -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between" id="case-card-3">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-accent-light text-accent border border-accent/20">Caso 3: Potencial de Acción & Excitabilidad</span>
+                <span class="text-xs font-bold text-slate-400 font-mono">100 pts</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-2">Paciente con Hipopotasemia (Bajo K⁺ Extracelular)</h3>
+              <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                En un paciente postquirúrgico con baja concentración sérica de potasio (K^+ extracelular disminuido), el gradiente de concentración de K^+ hacia el exterior se vuelve más pronunciado. Esto hiperpolariza la membrana en reposo de las fibras musculares de -70 mV a -88 mV. ¿Cómo repercute esto en la electroestimulación motora kinésica?
+              </p>
+            </div>
+            <div class="space-y-2 text-xs">
+              <button onclick="answerCase(3, 0, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                A) El músculo se volverá hiperexcitable y responderá con voltajes menores.
+              </button>
+              <button onclick="answerCase(3, 1, true)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                B) Se requerirá mayor voltaje (ΔV) o intensidad de corriente para alcanzar el umbral de -55 mV e iniciar la contracción.
+              </button>
+              <button onclick="answerCase(3, 2, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                C) Los canales de sodio se abrirán espontáneamente provocando calambres continuos.
+              </button>
+            </div>
+            <div class="case-feedback hidden mt-3 p-3 rounded-xl text-xs"></div>
+          </div>
+
+          <!-- Caso 4 -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between" id="case-card-4">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-accent-light text-accent border border-accent/20">Caso 4: Efecto Joule y Tiempo de Sesión</span>
+                <span class="text-xs font-bold text-slate-400 font-mono">100 pts</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-2">Dosificación térmica: Duplicar la corriente vs. Duplicar el tiempo</h3>
+              <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                Un profesional desea aumentar el efecto analgésico y térmico profundo. Tiene dos opciones: Duplicar la intensidad de corriente aplicada (2 × I) durante el mismo tiempo, o mantener la corriente original (I) y duplicar el tiempo de sesión (2 × t). De acuerdo con la ecuación Q = I^2 · R · t:
+              </p>
+            </div>
+            <div class="space-y-2 text-xs">
+              <button onclick="answerCase(4, 0, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                A) Ambas opciones generan exactamente la misma cantidad de calor disipado (Q).
+              </button>
+              <button onclick="answerCase(4, 1, false)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                B) Duplicar el tiempo genera 4 veces más calor que duplicar la intensidad.
+              </button>
+              <button onclick="answerCase(4, 2, true)" class="case-opt w-full text-left p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition">
+                C) Duplicar la corriente cuadruplica el calor generado (4 × Q) por su relación cuadrática, aumentando exponencialmente el riesgo térmico cutáneo.
+              </button>
+            </div>
+            <div class="case-feedback hidden mt-3 p-3 rounded-xl text-xs"></div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE VADEMÉCUM TEÓRICO (Estilo UCCuyo)                                 -->
+  <!-- ========================================================================= -->
+  <div id="modal-formulas" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto custom-scroll">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-800">Vademécum de Fisicoquímica & Bioelectricidad</h3>
+            <p class="text-[11px] text-slate-500 font-medium">Cátedra de Introducción a la Fisicoquímica - UCCuyo</p>
+          </div>
+        </div>
+        <button onclick="closeFormulasModal()" class="text-slate-400 hover:text-slate-700 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-700">
+        <!-- Ley de Coulomb y Campo -->
+        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="font-bold text-accent text-xs mb-1">1. Ley de Coulomb y Campo Eléctrico</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 my-1 font-mono text-center">
+            <div class="bg-white p-2 rounded border border-slate-200 font-bold">F = K · (|Q₁ · Q₂| / r²)</div>
+            <div class="bg-white p-2 rounded border border-slate-200 font-bold">E = F / q = K · (|Q| / r²)</div>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed mt-1">
+            Con K ≈ 9 × 10⁹ N·m²/C². La fuerza es inversamente proporcional al cuadrado de la distancia r.
+          </p>
+        </div>
+
+        <!-- Potencial Eléctrico y Trabajo -->
+        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="font-bold text-accent text-xs mb-1">2. Potencial Eléctrico y Trabajo de Transporte</div>
+          <div class="font-mono text-xs font-bold text-slate-800 my-1 bg-white p-2 rounded border border-slate-200 text-center">
+            V = E_p / q &nbsp;|&nbsp; W = q · ΔV = q · (V_A - V_B)
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed">
+            Unidad: Voltio (1 V = 1 J/C). Es la base termodinámica del arrastre electroforético de fármacos ionizados (iontoforesis).
+          </p>
+        </div>
+
+        <!-- Ley de Ohm y Efecto Joule -->
+        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="font-bold text-accent text-xs mb-1">3. Ley de Ohm y Disipación Térmica (Efecto Joule)</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 my-1 font-mono text-center">
+            <div class="bg-white p-2 rounded border border-slate-200 font-bold">ΔV = I · R &rarr; I = ΔV / R</div>
+            <div class="bg-white p-2 rounded border border-slate-200 font-bold">Q = I² · R · t (Joules)</div>
+          </div>
+          <p class="text-[11px] text-slate-600 leading-relaxed mt-1">
+            La generación de calor Q crece de forma cuadrática con la intensidad de corriente (I²). 1 J ≈ 0,239 calorías.
+          </p>
+        </div>
+
+        <!-- Bioelectricidad Celular -->
+        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="font-bold text-accent text-xs mb-1">4. Potenciales de Membrana Biológicos</div>
+          <div class="grid grid-cols-3 gap-2 text-center font-mono text-[11px] my-1">
+            <div class="bg-white p-2 rounded border border-slate-200">
+              <span class="text-slate-500 block text-[10px]">Reposo Muscular</span>
+              <strong class="text-slate-800">-70 a -90 mV</strong>
+            </div>
+            <div class="bg-white p-2 rounded border border-slate-200">
+              <span class="text-slate-500 block text-[10px]">Umbral Disparo</span>
+              <strong class="text-accent">-55 mV</strong>
+            </div>
+            <div class="bg-white p-2 rounded border border-slate-200">
+              <span class="text-slate-500 block text-[10px]">Pico Acción</span>
+              <strong class="text-rose-600">+30 mV</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 pt-3 border-t border-slate-100 flex justify-end">
+        <button onclick="closeFormulasModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition">
+          Cerrar Vademécum
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL DE GUÍA DE USO / TUTORIAL                                           -->
+  <!-- ========================================================================= -->
+  <div id="modal-tutorial" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto custom-scroll">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center text-sm font-bold shadow-xs">
+            <i class="fa-solid fa-compass"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-800">Guía de Uso del Laboratorio de Fisicoquímica & Bioelectricidad</h3>
+            <p class="text-[11px] text-slate-500 font-medium">Orientaciones prácticas para el curso de ingreso a Kinesiología (UCCuyo)</p>
+          </div>
+        </div>
+        <button onclick="closeTutorial()" class="text-slate-400 hover:text-slate-700 text-lg transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-600 leading-relaxed">
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-xs">1</div>
+          <div>
+            <strong class="text-slate-800 block text-xs mb-0.5">Navegación Lateral Modular:</strong>
+            Utiliza el menú lateral izquierdo para alternar entre los cinco ejes de aprendizaje: <em>1. Coulomb & Campo</em>, <em>2. Potencial & Corriente</em>, <em>3. Ohm & Joule Kinésico</em>, <em>4. Bioelectricidad Celular</em> y <em>5. Casos Kinésicos</em>.
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-xs">2</div>
+          <div>
+            <strong class="text-slate-800 block text-xs mb-0.5">Módulo 1 &bull; Laboratorio 2D de Cargas y Campo:</strong>
+            Arrastra directamente sobre el canvas las cargas Q₁ (roja), Q₂ (azul) y la sonda de prueba q₀ (amarilla). Ajusta sus magnitudes con los deslizadores laterales y activa/desactiva las líneas de campo vectorial y los vectores de fuerza de Coulomb para comprobar visualmente la repulsión o atracción.
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-xs">3</div>
+          <div>
+            <strong class="text-slate-800 block text-xs mb-0.5">Módulo 2 &bull; Dinámica de Deriva y Trabajo (Iontoforesis):</strong>
+            Modula la tensión aplicada (ΔV) y la densidad iónica para observar el flujo y velocidad de arrastre de cationes y aniones en un conductor biológico. Utiliza la calculadora integrada de trabajo (W = q · ΔV) para analizar el principio biofísico de la administración transdérmica de fármacos.
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-xs">4</div>
+          <div>
+            <strong class="text-slate-800 block text-xs mb-0.5">Módulo 3 &bull; Dosificación en Electroterapia y Seguridad Térmica:</strong>
+            Selecciona la interfase cutánea (con gel conductor vs. piel seca), ajusta el voltaje del equipo, el tamaño del electrodo y el tiempo de aplicación. Monitorea la corriente resultante (Ley de Ohm), la densidad (J = I/Área) y el calor generado (Efecto Joule: Q = I² · R · t) con el semáforo de alerta contra quemaduras.
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-xs">5</div>
+          <div>
+            <strong class="text-slate-800 block text-xs mb-0.5">Módulo 4 &bull; Membrana Celular, Osciloscopio y Sarcómera:</strong>
+            Presiona el botón <em>«Disparar Estímulo Kinésico»</em> para simular la despolarización por influjo de Na⁺. Sigue en tiempo real el potencial de membrana en el osciloscopio (-70 mV &rarr; +30 mV) y observa la respuesta mecánica simultánea de acortamiento de la sarcómera muscular (actina y miosina).
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-xs">6</div>
+          <div>
+            <strong class="text-slate-800 block text-xs mb-0.5">Vademécum y Casos Clínicos (Módulo 5):</strong>
+            Accede al botón <em>«Vademécum»</em> en la cabecera para consultar las fórmulas consolidadas y resuelve los cuatro casos clínicos formativos con retroalimentación explicada instantánea para afianzar tus conocimientos de ingreso.
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 pt-3 border-t border-slate-100 flex justify-end">
+        <button onclick="closeTutorial()" class="px-5 py-2.5 bg-accent hover:bg-accent-hover text-white font-semibold text-xs rounded-xl shadow-sm transition">
+          Comenzar Laboratorio
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- COMPONENTE TOAST FLOTANTE                                                 -->
+  <!-- ========================================================================= -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 border border-slate-700">
+    <i class="fa-solid fa-circle-check text-lime-400"></i>
+    <span id="toast-msg">Mensaje informativo</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER INSTITUCIONAL                                                      -->
+  <!-- ========================================================================= -->
+  <footer class="bg-white border-t border-gray-200 mt-8 py-4">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
+      <div>Universidad Católica de Cuyo | Facultad de Ciencias Médicas</div>
+      <div class="font-medium text-gray-600">Licenciatura en Kinesiología y Fisiatría - Unidad 7</div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- SCRIPT PRINCIPAL DEL SIMULADOR                                            -->
+  <!-- ========================================================================= -->
+  <script>
+    /* ============================================================
+       1. ESTADO GLOBAL Y NAVEGACIÓN
+       ============================================================ */
+    const state = {
+      currentTab: 1,
+      completedCases: new Set()
+    };
+
+    function switchModule(modNum) {
+      state.currentTab = modNum;
+      document.querySelectorAll('.module-view').forEach(m => m.classList.add('hidden'));
+      const activeMod = document.getElementById(`module-${modNum}`);
+      if (activeMod) activeMod.classList.remove('hidden');
+
+      for (let i = 1; i <= 5; i++) {
+        const btn = document.getElementById(`tab-btn-${i}`);
+        if (!btn) continue;
+        if (i === modNum) {
+          btn.className = "bg-accent text-white flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-semibold transition shadow-sm flex items-center gap-2";
+        } else {
+          btn.className = "text-gray-700 hover:bg-gray-100 flex-1 lg:flex-none text-left py-2.5 px-4 rounded-xl text-sm font-medium transition flex items-center gap-2";
+        }
+      }
+
+      // Inicializar y redibujar canvases según el módulo activo
+      setTimeout(() => {
+        if (modNum === 1) { resizeM1Canvas(); updateModule1Calculations(); }
+        if (modNum === 2) { initModule2Canvas(); }
+        if (modNum === 4) { initModule4Canvases(); }
+      }, 50);
+    }
+
+    /* ============================================================
+       2. MÓDULO 1: COULOMB Y CAMPO ELÉCTRICO 2D
+       ============================================================ */
+    const m1 = {
+      canvas: null,
+      ctx: null,
+      width: 0,
+      height: 0,
+      K: 8.98755e9,
+      scale: 180, // 180 px = 1 m
+      charges: [
+        { id: 1, q: 4.0e-6, x: 200, y: 180, r: 18, color: '#ef4444', label: 'Q₁' },
+        { id: 2, q: -4.0e-6, x: 400, y: 180, r: 18, color: '#3b82f6', label: 'Q₂' }
+      ],
+      probe: { x: 300, y: 100, r: 10, q: 1.0e-9, label: 'q₀' },
+      dragging: null
+    };
+
+    function initModule1Canvas() {
+      m1.canvas = document.getElementById('canvas-coulomb');
+      if (!m1.canvas) return;
+      m1.ctx = m1.canvas.getContext('2d');
+      resizeM1Canvas();
+      bindM1Events();
+      requestAnimationFrame(renderM1);
+    }
+
+    function resizeM1Canvas() {
+      if (!m1.canvas) return;
+      const rect = m1.canvas.parentElement.getBoundingClientRect();
+      m1.canvas.width = rect.width;
+      m1.canvas.height = rect.height;
+      m1.width = rect.width;
+      m1.height = rect.height;
+    }
+
+    function resetModule1Positions() {
+      m1.charges[0].x = m1.width * 0.35 || 200;
+      m1.charges[0].y = m1.height * 0.5 || 180;
+      m1.charges[1].x = m1.width * 0.65 || 400;
+      m1.charges[1].y = m1.height * 0.5 || 180;
+      m1.probe.x = m1.width * 0.5 || 300;
+      m1.probe.y = m1.height * 0.25 || 90;
+      updateModule1Calculations();
+      showToast("Cargas y sonda centradas.");
+    }
+
+    function bindM1Events() {
+      const canvas = m1.canvas;
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      function onDown(e) {
+        const pos = getPos(e);
+        const distProbe = Math.hypot(pos.x - m1.probe.x, pos.y - m1.probe.y);
+        if (distProbe < m1.probe.r + 10) { m1.dragging = m1.probe; return; }
+        for (let c of m1.charges) {
+          if (Math.hypot(pos.x - c.x, pos.y - c.y) < c.r + 10) {
+            m1.dragging = c;
+            return;
+          }
+        }
+      }
+
+      function onMove(e) {
+        if (!m1.dragging) return;
+        const pos = getPos(e);
+        m1.dragging.x = Math.max(25, Math.min(m1.width - 25, pos.x));
+        m1.dragging.y = Math.max(25, Math.min(m1.height - 25, pos.y));
+        updateModule1Calculations();
+      }
+
+      function onUp() { m1.dragging = null; }
+
+      canvas.addEventListener('mousedown', onDown);
+      canvas.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+      canvas.addEventListener('touchstart', onDown, { passive: true });
+      canvas.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', onUp);
+    }
+
+    function onM1SliderChange() {
+      const q1Val = parseFloat(document.getElementById('m1-slider-q1').value);
+      const q2Val = parseFloat(document.getElementById('m1-slider-q2').value);
+      m1.charges[0].q = q1Val * 1e-6;
+      m1.charges[1].q = q2Val * 1e-6;
+      document.getElementById('m1-val-q1').innerText = `${q1Val >= 0 ? '+' : ''}${q1Val.toFixed(1)} μC`;
+      document.getElementById('m1-val-q2').innerText = `${q2Val >= 0 ? '+' : ''}${q2Val.toFixed(1)} μC`;
+      m1.charges[0].color = q1Val >= 0 ? '#ef4444' : '#3b82f6';
+      m1.charges[1].color = q2Val >= 0 ? '#ef4444' : '#3b82f6';
+      updateModule1Calculations();
+    }
+
+    function updateModule1Calculations() {
+      const q1 = m1.charges[0];
+      const q2 = m1.charges[1];
+      const dx = (q2.x - q1.x) / m1.scale;
+      const dy = (q2.y - q1.y) / m1.scale;
+      const r = Math.max(0.04, Math.hypot(dx, dy));
+
+      // Fuerza de Coulomb entre Q1 y Q2
+      const F = (m1.K * Math.abs(q1.q * q2.q)) / (r * r);
+      const isRepulsive = (q1.q * q2.q) > 0;
+
+      document.getElementById('m1-disp-r').innerText = `${r.toFixed(2)} m`;
+      document.getElementById('m1-disp-f').innerText = `${F < 0.001 ? F.toExponential(2) : F.toFixed(3)} N`;
+      document.getElementById('m1-disp-f-type').innerText = (q1.q === 0 || q2.q === 0) ? "Nula" : (isRepulsive ? "Repulsión" : "Atracción");
+
+      // Campo Eléctrico en Sonda q0
+      let Ex = 0, Ey = 0;
+      for (let c of m1.charges) {
+        const rx = (m1.probe.x - c.x) / m1.scale;
+        const ry = (m1.probe.y - c.y) / m1.scale;
+        const dist = Math.max(0.04, Math.hypot(rx, ry));
+        const E_mag = (m1.K * c.q) / (dist * dist);
+        Ex += E_mag * (rx / dist);
+        Ey += E_mag * (ry / dist);
+      }
+      const E_tot = Math.hypot(Ex, Ey);
+      document.getElementById('m1-disp-e-probe').innerText = `${E_tot < 1 ? E_tot.toExponential(2) : Math.round(E_tot).toLocaleString()} N/C`;
+    }
+
+    function renderM1() {
+      if (!m1.ctx || !m1.width) { requestAnimationFrame(renderM1); return; }
+      const ctx = m1.ctx;
+      ctx.clearRect(0, 0, m1.width, m1.height);
+
+      // Cuadrícula sutil
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < m1.width; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, m1.height); ctx.stroke(); }
+      for (let y = 0; y < m1.height; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(m1.width, y); ctx.stroke(); }
+
+      const showField = document.getElementById('m1-toggle-field') ? document.getElementById('m1-toggle-field').checked : true;
+      const showForces = document.getElementById('m1-toggle-vectors') ? document.getElementById('m1-toggle-vectors').checked : true;
+
+      // Líneas de Campo (Muestreo 2D)
+      if (showField) {
+        ctx.lineWidth = 1.2;
+        const step = 38;
+        for (let x = 20; x < m1.width; x += step) {
+          for (let y = 20; y < m1.height; y += step) {
+            let Ex = 0, Ey = 0;
+            for (let c of m1.charges) {
+              const rx = (x - c.x) / m1.scale;
+              const ry = (y - c.y) / m1.scale;
+              const d2 = rx * rx + ry * ry;
+              const dist = Math.max(0.05, Math.sqrt(d2));
+              const E = (m1.K * c.q) / (dist * dist);
+              Ex += E * (rx / dist);
+              Ey += E * (ry / dist);
+            }
+            const Emag = Math.hypot(Ex, Ey);
+            if (Emag > 10) {
+              const uEx = (Ex / Emag) * 11;
+              const uEy = (Ey / Emag) * 11;
+              ctx.strokeStyle = 'rgba(6, 182, 212, 0.28)';
+              ctx.beginPath();
+              ctx.moveTo(x, y);
+              ctx.lineTo(x + uEx, y + uEy);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      // Línea entre cargas Q1 y Q2
+      const q1 = m1.charges[0];
+      const q2 = m1.charges[1];
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.4)';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(q1.x, q1.y); ctx.lineTo(q2.x, q2.y); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Vectores Fuerza sobre Cargas
+      if (showForces && q1.q !== 0 && q2.q !== 0) {
+        const dx = q2.x - q1.x;
+        const dy = q2.y - q1.y;
+        const d = Math.hypot(dx, dy) || 1;
+        const isRep = (q1.q * q2.q) > 0;
+        const dir = isRep ? 1 : -1;
+        const fLen = 35;
+
+        // Fuerza sobre Q1
+        ctx.strokeStyle = '#a3e635';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(q1.x, q1.y);
+        ctx.lineTo(q1.x - (dx / d) * fLen * dir, q1.y - (dy / d) * fLen * dir);
+        ctx.stroke();
+
+        // Fuerza sobre Q2
+        ctx.beginPath();
+        ctx.moveTo(q2.x, q2.y);
+        ctx.lineTo(q2.x + (dx / d) * fLen * dir, q2.y + (dy / d) * fLen * dir);
+        ctx.stroke();
+      }
+
+      // Dibujar Cargas Q1 y Q2
+      for (let c of m1.charges) {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fillStyle = c.color;
+        ctx.fill();
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 12px Outfit, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(c.q >= 0 ? '+' : '-', c.x, c.y - 1);
+
+        ctx.font = '10px JetBrains Mono, monospace';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillText(c.label, c.x, c.y + c.r + 12);
+      }
+
+      // Dibujar Sonda q0
+      ctx.beginPath();
+      ctx.arc(m1.probe.x, m1.probe.y, m1.probe.r, 0, Math.PI * 2);
+      ctx.fillStyle = '#facc15';
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = '#ffffff';
+      ctx.stroke();
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'bold 9px JetBrains Mono, monospace';
+      ctx.fillText('q₀', m1.probe.x, m1.probe.y + 0.5);
+
+      requestAnimationFrame(renderM1);
+    }
+
+    /* ============================================================
+       3. MÓDULO 2: POTENCIAL, DERIVA IÓNICA Y TRABAJO
+       ============================================================ */
+    const m2 = {
+      canvas: null,
+      ctx: null,
+      voltage: 50,
+      particles: [],
+      density: 30
+    };
+
+    function initModule2Canvas() {
+      m2.canvas = document.getElementById('canvas-drift');
+      if (!m2.canvas) return;
+      m2.ctx = m2.canvas.getContext('2d');
+      const rect = m2.canvas.parentElement.getBoundingClientRect();
+      m2.canvas.width = rect.width;
+      m2.canvas.height = rect.height;
+
+      m2.particles = [];
+      for (let i = 0; i < 40; i++) {
+        m2.particles.push({
+          x: Math.random() * m2.canvas.width,
+          y: 20 + Math.random() * (m2.canvas.height - 40),
+          isCation: Math.random() > 0.5
+        });
+      }
+      requestAnimationFrame(renderM2);
+    }
+
+    function onM2VoltageChange(v) {
+      m2.voltage = parseFloat(v);
+      document.getElementById('m2-val-voltage').innerText = `${m2.voltage} V`;
+      document.getElementById('m2-calc-dv-display').innerText = `${m2.voltage.toFixed(1)} V`;
+      document.getElementById('m2-current-tag').innerText = `I = ${(m2.voltage * 0.1).toFixed(2)} mA`;
+      calcWork();
+    }
+
+    function onM2DensityChange(d) {
+      m2.density = parseInt(d);
+      const lbl = m2.density < 20 ? 'Baja (Seco)' : (m2.density > 45 ? 'Alta (Gel)' : 'Media');
+      document.getElementById('m2-val-density').innerText = lbl;
+    }
+
+    function calcWork() {
+      const q_mC = parseFloat(document.getElementById('m2-input-q').value) || 0;
+      const dV = m2.voltage;
+      const work_J = (q_mC * 1e-3) * dV;
+      document.getElementById('m2-calc-work-res').innerText = `${work_J.toFixed(4)} J`;
+    }
+
+    function renderM2() {
+      if (!m2.ctx || !m2.canvas) return;
+      const ctx = m2.ctx;
+      const w = m2.canvas.width;
+      const h = m2.canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Paredes del conductor
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(2, 2, w - 4, h - 4);
+
+      // Placas Ánodo y Cátodo
+      ctx.fillStyle = '#ef4444';
+      ctx.fillRect(4, 4, 14, h - 8);
+      ctx.fillStyle = '#3b82f6';
+      ctx.fillRect(w - 18, 4, 14, h - 8);
+
+      // Desplazamiento de iones por el campo eléctrico
+      const driftSpeed = (m2.voltage / 50) * 1.8;
+      for (let p of m2.particles) {
+        if (p.isCation) {
+          p.x += driftSpeed + (Math.random() - 0.48) * 0.8;
+          if (p.x > w - 22) p.x = 22;
+        } else {
+          p.x -= driftSpeed + (Math.random() - 0.52) * 0.8;
+          if (p.x < 22) p.x = w - 22;
+        }
+        p.y += (Math.random() - 0.5) * 0.9;
+        if (p.y < 20) p.y = 20;
+        if (p.y > h - 20) p.y = h - 20;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.isCation ? 5 : 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = p.isCation ? '#ef4444' : '#38bdf8';
+        ctx.fill();
+      }
+
+      if (state.currentTab === 2) requestAnimationFrame(renderM2);
+    }
+
+    /* ============================================================
+       4. MÓDULO 3: LEY DE OHM Y EFECTO JOULE
+       ============================================================ */
+    function updateOhmJoule() {
+      const skinType = document.getElementById('m3-select-skin').value;
+      const V = parseFloat(document.getElementById('m3-slider-volts').value);
+      const timeMin = parseFloat(document.getElementById('m3-slider-time').value);
+      const electrodeSize = document.getElementById('m3-select-electrode-size').value;
+
+      document.getElementById('m3-val-volts').innerText = `${V} V`;
+      document.getElementById('m3-val-time').innerText = `${timeMin} min (${Math.round(timeMin * 60)} s)`;
+
+      let R_skin = 500;
+      let skinText = "500 Ω (Con Gel)";
+      if (skinType === 'dry') { R_skin = 3500; skinText = "3500 Ω (Piel Seca)"; }
+      else if (skinType === 'hydrated') { R_skin = 1200; skinText = "1200 Ω (Hidratada)"; }
+
+      document.getElementById('m3-skin-res-disp').innerText = skinText;
+      const R_deep = 120; // Resistencia de tejidos profundos
+      const R_total = R_skin + R_deep;
+      document.getElementById('m3-total-r-disp').innerText = `${R_total} Ω`;
+
+      // Ley de Ohm: I = V / R (Amperios)
+      const I_amps = V / R_total;
+      const I_mA = I_amps * 1000;
+      document.getElementById('m3-disp-i').innerHTML = `${I_mA.toFixed(1)} <span class="text-xs font-normal text-slate-500">mA</span>`;
+
+      // Densidad de corriente (J)
+      let area_cm2 = 25;
+      if (electrodeSize === 'large') area_cm2 = 100;
+      else if (electrodeSize === 'small') area_cm2 = 2;
+      const J = I_mA / area_cm2;
+      document.getElementById('m3-disp-j').innerHTML = `${J.toFixed(2)} <span class="text-xs font-normal text-slate-500">mA/cm²</span>`;
+
+      // Efecto Joule: Q = I^2 * R * t
+      const t_sec = timeMin * 60;
+      const Q_joules = (I_amps * I_amps) * R_total * t_sec;
+      const Q_cal = Q_joules * 0.239;
+      document.getElementById('m3-disp-joules').innerText = `${Math.round(Q_joules).toLocaleString()} J`;
+      document.getElementById('m3-disp-cal').innerText = Math.round(Q_cal).toLocaleString();
+
+      // Alertas y Rangos de Seguridad
+      const tag = document.getElementById('m3-safety-tag');
+      const warn = document.getElementById('m3-thermal-warning');
+      if (I_mA > 50 || J > 3.0) {
+        tag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300";
+        tag.innerText = "¡PELIGRO DE QUEMADURA!";
+        warn.innerHTML = "⚠️ <strong>Alerta:</strong> Altísima densidad electrotérmica. Riesgo inminente de quemadura cutánea galvánica.";
+      } else if (I_mA > 30) {
+        tag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300";
+        tag.innerText = "Límite Tolerable (Vigoroso)";
+        warn.innerHTML = "⚡ <strong>Calentamiento moderado:</strong> Contracción muscular vigorosa con sensación urente transitoria.";
+      } else {
+        tag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+        tag.innerText = "Rango Terapéutico Seguro";
+        warn.innerHTML = "✅ Calentamiento tisular fisiológico leve. Bien disipado por la microcirculación dérmica.";
+      }
+    }
+
+    /* ============================================================
+       5. MÓDULO 4: BIOELECTRICIDAD Y CONTRACCIÓN DE SARCÓMERA
+       ============================================================ */
+    const m4 = {
+      cMem: null, ctxMem: null,
+      cOsc: null, ctxOsc: null,
+      cSarc: null, ctxSarc: null,
+      vm: -70,
+      targetVm: -70,
+      oscHistory: [],
+      contraction: 0,
+      ions: []
+    };
+
+    function initModule4Canvases() {
+      m4.cMem = document.getElementById('canvas-membrane');
+      m4.cOsc = document.getElementById('canvas-oscilloscope');
+      m4.cSarc = document.getElementById('canvas-sarcomere');
+      if (!m4.cMem || !m4.cOsc || !m4.cSarc) return;
+
+      m4.ctxMem = m4.cMem.getContext('2d');
+      m4.ctxOsc = m4.cOsc.getContext('2d');
+      m4.ctxSarc = m4.cSarc.getContext('2d');
+
+      m4.cMem.width = m4.cMem.parentElement.getBoundingClientRect().width;
+      m4.cMem.height = m4.cMem.parentElement.getBoundingClientRect().height;
+      m4.cOsc.width = m4.cOsc.parentElement.getBoundingClientRect().width;
+      m4.cOsc.height = m4.cOsc.parentElement.getBoundingClientRect().height;
+      m4.cSarc.width = m4.cSarc.parentElement.getBoundingClientRect().width;
+      m4.cSarc.height = m4.cSarc.parentElement.getBoundingClientRect().height;
+
+      m4.oscHistory = new Array(Math.floor(m4.cOsc.width)).fill(-70);
+
+      m4.ions = [];
+      // Iones Na+ (extracelulares arriba) y K+ (intracelulares abajo)
+      for (let i = 0; i < 35; i++) {
+        m4.ions.push({ x: Math.random() * m4.cMem.width, y: 15 + Math.random() * 80, type: 'Na', color: '#ef4444' });
+        m4.ions.push({ x: Math.random() * m4.cMem.width, y: 150 + Math.random() * 80, type: 'K', color: '#a3e635' });
+      }
+
+      requestAnimationFrame(renderM4);
+    }
+
+    function triggerActionPotential() {
+      showToast("Estímulo eléctrico aplicado: Entrada masiva de Na⁺");
+      const tag = document.getElementById('m4-membrane-state-tag');
+      const twitch = document.getElementById('m4-muscle-twitch-status');
+
+      tag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300";
+      tag.innerText = "¡Despolarización! (+30 mV)";
+      twitch.innerText = "Contracción Activa (Sarcómera Acortada)";
+      twitch.className = "text-xs font-bold text-accent";
+
+      // Curva del potencial de acción
+      let step = 0;
+      const interval = setInterval(() => {
+        step++;
+        if (step <= 10) {
+          m4.vm += 10; // Despolarización hasta +30 mV
+          m4.contraction = Math.min(1, m4.contraction + 0.1);
+        } else if (step <= 22) {
+          m4.vm -= 8; // Repolarización / Hiperpolarización
+          m4.contraction = Math.max(0, m4.contraction - 0.08);
+        } else {
+          clearInterval(interval);
+          m4.vm = -70;
+          m4.contraction = 0;
+          tag.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300";
+          tag.innerText = "Reposo Polarizado (-70 mV)";
+          twitch.innerText = "Relajada";
+          twitch.className = "text-xs font-semibold text-slate-500";
+        }
+        document.getElementById('m4-vm-live').innerText = `${m4.vm.toFixed(1)} mV`;
+      }, 45);
+    }
+
+    function resetMembrane() {
+      m4.vm = -70;
+      m4.contraction = 0;
+      document.getElementById('m4-vm-live').innerText = "-70.0 mV";
+      document.getElementById('m4-membrane-state-tag').className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300";
+      document.getElementById('m4-membrane-state-tag').innerText = "Reposo Polarizado (-70 mV)";
+      document.getElementById('m4-muscle-twitch-status').innerText = "Relajada";
+      showToast("Membrana restablecida a reposo (-70 mV).");
+    }
+
+    function renderM4() {
+      if (!m4.ctxMem || !m4.cMem) return;
+      const w = m4.cMem.width;
+      const h = m4.cMem.height;
+      const ctx = m4.ctxMem;
+      ctx.clearRect(0, 0, w, h);
+
+      // Bicapa lipídica (dieléctrico)
+      const midY = h / 2;
+      ctx.fillStyle = '#334155';
+      ctx.fillRect(0, midY - 14, w, 28);
+      // Cabezas polares
+      ctx.fillStyle = '#f59e0b';
+      for (let x = 10; x < w; x += 16) {
+        ctx.beginPath(); ctx.arc(x, midY - 14, 4, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(x, midY + 14, 4, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // Canales iónicos
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillRect(w * 0.35, midY - 20, 26, 40);
+      ctx.fillStyle = '#a3e635';
+      ctx.fillRect(w * 0.65, midY - 20, 26, 40);
+
+      // Dibujar Iones
+      for (let ion of m4.ions) {
+        ion.x += (Math.random() - 0.5) * 0.9;
+        ctx.beginPath();
+        ctx.arc(ion.x, ion.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = ion.color;
+        ctx.fill();
+      }
+
+      // Osciloscopio
+      const ctxO = m4.ctxOsc;
+      const wO = m4.cOsc.width;
+      const hO = m4.cOsc.height;
+      ctxO.clearRect(0, 0, wO, hO);
+      ctxO.strokeStyle = '#1e293b';
+      ctxO.lineWidth = 1;
+      for (let x = 0; x < wO; x += 30) { ctxO.beginPath(); ctxO.moveTo(x, 0); ctxO.lineTo(x, hO); ctxO.stroke(); }
+      for (let y = 0; y < hO; y += 20) { ctxO.beginPath(); ctxO.moveTo(0, y); ctxO.lineTo(wO, y); ctxO.stroke(); }
+
+      function mvToY(mv) {
+        return 10 + ((40 - mv) / 130) * (hO - 20);
+      }
+
+      // Trazo de señal
+      m4.oscHistory.push(m4.vm);
+      if (m4.oscHistory.length > wO) m4.oscHistory.shift();
+
+      ctxO.strokeStyle = '#a3e635';
+      ctxO.lineWidth = 2.5;
+      ctxO.beginPath();
+      for (let i = 0; i < m4.oscHistory.length; i++) {
+        const y = mvToY(m4.oscHistory[i]);
+        if (i === 0) ctxO.moveTo(i, y);
+        else ctxO.lineTo(i, y);
+      }
+      ctxO.stroke();
+
+      // Sarcómera Muscular
+      const ctxS = m4.ctxSarc;
+      const wS = m4.cSarc.width;
+      const hS = m4.cSarc.height;
+      ctxS.clearRect(0, 0, wS, hS);
+      const margin = 25 + m4.contraction * 36;
+      ctxS.strokeStyle = '#ef4444';
+      ctxS.lineWidth = 4;
+      // Discos Z
+      ctxS.beginPath(); ctxS.moveTo(margin, 8); ctxS.lineTo(margin, hS - 8); ctxS.stroke();
+      ctxS.beginPath(); ctxS.moveTo(wS - margin, 8); ctxS.lineTo(wS - margin, hS - 8); ctxS.stroke();
+      // Filamentos actina
+      ctxS.strokeStyle = '#38bdf8';
+      ctxS.lineWidth = 2;
+      ctxS.beginPath();
+      ctxS.moveTo(margin, hS/2 - 8); ctxS.lineTo(wS/2 - 5, hS/2 - 8);
+      ctxS.moveTo(wS - margin, hS/2 - 8); ctxS.lineTo(wS/2 + 5, hS/2 - 8);
+      ctxS.stroke();
+      // Miosina
+      ctxS.strokeStyle = '#f59e0b';
+      ctxS.lineWidth = 6;
+      ctxS.beginPath();
+      ctxS.moveTo(wS/2 - 45, hS/2); ctxS.lineTo(wS/2 + 45, hS/2);
+      ctxS.stroke();
+
+      if (state.currentTab === 4) requestAnimationFrame(renderM4);
+    }
+
+    /* ============================================================
+       6. MÓDULO 5: CASOS CLÍNICOS Y EVALUACIÓN FORMATIVA
+       ============================================================ */
+    const caseExplanations = {
+      1: "Excelente: La piel seca posee una impedancia sumamente elevada en microzonas, concentrando peligrosamente la densidad de corriente (J = I/A). El gel homogeniza el área equipotencial, disipando el calor y previniendo la quemadura galvánica/térmica.",
+      2: "¡Correcto! Según la Ley de Coulomb (F ∝ 1/r²), al duplicarse la separación (2r), la fuerza que sujeta los iones a la frontera lipídica decae al 25% (1/4).",
+      3: "¡Exacto! Al hiperpolarizarse la membrana (de -70 a -88 mV), la distancia al umbral (-55 mV) aumenta de 15 a 33 mV. Se requerirá un estímulo kinésico de mayor amplitud o duración de pulso.",
+      4: "¡Sobresaliente! El Efecto Joule sigue la relación cuadrática Q = I² · R · t. Duplicar la corriente cuadruplica el calor generado (4× Q), aumentando exponencialmente el riesgo térmico cutáneo."
+    };
+
+    function answerCase(caseNum, optionIdx, isCorrect) {
+      const card = document.getElementById(`case-card-${caseNum}`);
+      const feedback = card.querySelector('.case-feedback');
+      const buttons = card.querySelectorAll('.case-opt');
+
+      buttons.forEach(b => b.disabled = true);
+      feedback.classList.remove('hidden');
+
+      if (isCorrect) {
+        buttons[optionIdx].classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+        feedback.className = 'case-feedback mt-3 p-3 rounded-xl text-xs bg-emerald-50 border border-emerald-300 text-emerald-900';
+        feedback.innerHTML = `<strong>✅ Respuesta Correcta:</strong> ${caseExplanations[caseNum]}`;
+        showToast(`¡Caso ${caseNum} resuelto correctamente!`);
+      } else {
+        buttons[optionIdx].classList.add('bg-rose-100', 'border-rose-400', 'text-rose-900');
+        feedback.className = 'case-feedback mt-3 p-3 rounded-xl text-xs bg-rose-50 border border-rose-300 text-rose-900';
+        feedback.innerHTML = `<strong>❌ Opción Incorrecta:</strong> Revisa las leyes biofísicas correspondientes e intenta nuevamente.`;
+        setTimeout(() => {
+          buttons.forEach(b => b.disabled = false);
+        }, 1200);
+      }
+    }
+
+    /* ============================================================
+       7. MODALES Y UTILIDADES
+       ============================================================ */
+    function openFormulasModal() {
+      document.getElementById('modal-formulas').classList.remove('hidden');
+    }
+    function closeFormulasModal() {
+      document.getElementById('modal-formulas').classList.add('hidden');
+    }
+    function openTutorial() {
+      document.getElementById('modal-tutorial').classList.remove('hidden');
+    }
+    function closeTutorial() {
+      document.getElementById('modal-tutorial').classList.add('hidden');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    // Inicialización global
+    window.addEventListener('DOMContentLoaded', () => {
+      switchModule(1);
+      initModule1Canvas();
+      updateModule1Calculations();
+      updateOhmJoule();
+    });
+
+    window.addEventListener('resize', () => {
+      if (state.currentTab === 1) { resizeM1Canvas(); updateModule1Calculations(); }
+      if (state.currentTab === 2) { initModule2Canvas(); }
+      if (state.currentTab === 4) { initModule4Canvases(); }
+    });
+  </script>
+</body>
+</html>
